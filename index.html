@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+    <title>4.1 Vorbereitungsaufgabe JavaScript DOM</title>
+  </head>
+  <body>
+    <h1>Aufgabe 1: String umkehren</h1>
+    <p>Mein String lautet <span id="originalString"></span></p>
+    <button id="umkehrButton" style="margin-bottom: 1rem" ;>String umkehren</button>
+    <div id="aufgabe1"></div>
+
+    <h1>Aufgabe 2: Schaltjahr?</h1>
+
+    <label for="eingegebenesJahr">Gib hier deine Jahrszahl ein:</label><br />
+    <input type="number" id="eingegebenesJahr" placeholder="Jahr eingeben" required /><br />
+    <button onclick="pruefeSchaltjahr()">Schaltjahr prüfen</button>
+
+    <p id="aufgabe2"></p>
+
+    <h1>Aufgabe 3: Panagramm?</h1>
+    <label for="eingegebenerSatz">Schreibe hier deinen Satz rein:</label><br />
+    <textarea id="eingegebenerSatz" placeholder="Satz einfügen und prüfen, ob er ein Panagramm ist."></textarea><br />
+
+    <button onclick="checkPangram()">Panagramm prüfen</button>
+
+    <p id="aufgabe3"></p>
+  </body>
+  <script>
+    /* Aufgabe 1: Implementieren Sie eine JavaScript Funktion die einen String umkehrt. Beispiel: aus "javascript" wird "tpircsavaj" */
+    let meinString = "Meine ersten Gehversuche in Javascript!";
+
+    function reverseTheString(str) {
+      return str.split("").reverse().join("");
+    }
+
+    document.getElementById("originalString").textContent = meinString;
+
+    document.getElementById("umkehrButton").addEventListener("click", function () {
+      let meinStringReversed = reverseTheString(meinString);
+      document.getElementById("aufgabe1").innerHTML = meinStringReversed;
+    });
+
+    /* funtion zeigt an, dass eine Funktion folgt. "reverseTheString" ist der Name der funktion und str ist ein Parameter, also der String der "reversed" wird. "split" ist eine Methode um den String (str) um alle Zeichen in eine Array aufzuteilen. Beispiel "Hoi" wird zu ['h' 'o' 'i']. Reverse ändert die Reihenfolge der Zeichen im String und "Join" führt alle Zeichen der Array wieder zu einem String zusammen  */
+
+    /*-------------------------------------------------------------------------------------*/
+
+    /* Aufgabe 2: Implementieren Sie eine JavaScript Funktion, welche erkennt, ob ein Jahr ein Schaltjahr ist. Sie erkennen ein Schaltjahr anhand der folgenden Regeln:
+        1.Die durch 4 ganzzahlig teilbaren Jahre sind Schaltjahre.
+        2.Jahre, die ein Jahrhundert abschliessen (z. B. 1800, 1900, 2100 und 2200) sind keine Schaltjahre.
+        3.Die durch 400 ganzzahlig teilbaren Jahre sind doch Schaltjahre.
+        Bspw. ist 1997 kein Schaltjahr, aber 1996 schon. 1900 ist kein Schaltjahr, 2000 ist eines.  */
+
+    let eingegebenesJahr = 2000;
+
+    function istEinSchaltjahr(eingegebenesJahr) {
+      return eingegebenesJahr % 4 === 0 && (eingegebenesJahr % 100 !== 0 || eingegebenesJahr % 400 === 0);
+    }
+
+    // console.log(istEinSchaltjahr(eingegebenesJahr));
+
+    function pruefeSchaltjahr() {
+      const eingegebenesJahr = document.getElementById("eingegebenesJahr").value;
+      const aufgabe2 = document.getElementById("aufgabe2");
+
+      if (eingegebenesJahr.trim() === "") {
+        aufgabe2.textContent = "Ey, gib ein Jahr ein!";
+        aufgabe2.style.color = "red";
+        return;
+      }
+
+      if (istEinSchaltjahr(eingegebenesJahr)) {
+        aufgabe2.textContent = eingegebenesJahr + " ist ein Schaltjahr.";
+        aufgabe2.style.color = "#62d467";
+      } else {
+        aufgabe2.textContent = eingegebenesJahr + " ist kein Schaltjahr.";
+        aufgabe2.style.color = "red";
+      }
+    }
+
+    /*-------------------------------------------------------------------------------------*/
+
+    function istEinPanagramm(eingegebenerSatz) {
+      const alphabet = "abcdefghijklmnopqrstuvwxyz";
+      const eingebenerSatzLowerCase = eingegebenerSatz.toLowerCase();
+
+      for (let char of alphabet) {
+        if (!eingebenerSatzLowerCase.includes(char)) {
+          return false; // Wenn ein Buchstabe fehlt, ist es kein Pangramm
+        }
+      }
+      return true; // Alle Buchstaben sind vorhanden, also ist es ein Pangramm
+    }
+
+    function satzZaehlung(text) {
+      const satzende =
+        /[.!?]/g; /* /[.!?]/g sucht alle Punkte, Ausrufezeichen oder Fragezeichen in einem Text. Die Schrägstriche und die eckigen Klammern umschliessen die gesuchten Zeichen. Das g sorgt dafür, dass der die Suche global auf den gesamten Text angewendet wird */
+      const anzahlSaetze = text.match(satzende);
+      return anzahlSaetze ? anzahlSaetze.length : 0;
+    }
+
+    function checkPangram() {
+      const eingegebenerSatz = document.getElementById("eingegebenerSatz").value;
+      const aufgabe3ergebnis = document.getElementById("aufgabe3");
+
+      const satzanzahl = satzZaehlung(eingegebenerSatz);
+      if (satzanzahl > 1) {
+        aufgabe3ergebnis.textContent = `${satzanzahl} Sätze gefunden. Bitte nur einen Satz eingeben.`;
+        aufgabe3ergebnis.style.color = "orange";
+        return;
+      }
+
+      const ergebnis = istEinPanagramm(eingegebenerSatz);
+
+      if (ergebnis) {
+        aufgabe3ergebnis.textContent = "Dein Satz ist ein Pangramm!";
+        aufgabe3ergebnis.style.color = "#62d467";
+      } else {
+        aufgabe3ergebnis.textContent = "Dein Satz ist kein Pangramm!";
+        aufgabe3ergebnis.style.color = "red";
+      }
+    }
+  </script>
+</html>

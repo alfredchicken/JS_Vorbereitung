@@ -1,0 +1,58 @@
+* {
+  font-family: "Rubik", sans-serif;
+}
+
+body {
+  padding: 0 5rem;
+}
+
+h1 {
+  margin-top: 4rem;
+}
+
+#originalString {
+  font-weight: 900;
+}
+
+/** Habe gesehen, dass man Pseudoklassen direkt mit & anhängen kann**/
+button {
+  background-color: #9e67d1;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  border: 0;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  width: auto;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+    background-image: linear-gradient(#9e67d1, #b095c9);
+    color: #fff;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px #c9c9c9;
+  }
+}
+
+#aufgabe1 {
+  font-weight: 900;
+  color: #9e67d1;
+}
+
+#aufgabe2 {
+  font-weight: 900;
+}
+
+textarea {
+  height: 5rem;
+  width: 20rem;
+  margin-top: 0.5rem;
+}
+
+input {
+  margin-top: 0.5rem;
+}
